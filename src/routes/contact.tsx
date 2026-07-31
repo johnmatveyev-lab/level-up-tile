@@ -42,7 +42,7 @@ function ContactPage() {
         eyebrow="Get in Touch"
         title="Book a Consultation"
         description="Tell us about your space. We'll follow up to schedule a showroom or on-site conversation."
-        image="/images/cta-hex.jpg"
+        image="https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/cta-hex.jpg"
         compact
       />
 

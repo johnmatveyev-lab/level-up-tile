@@ -31,7 +31,7 @@ function AboutPage() {
         eyebrow="Our Story"
         title="About Level Up Tile"
         description="Born in Greenville to elevate Upstate living."
-        image="/images/hero-marble-bath.jpg"
+        image="https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/hero-marble-bath.jpg"
       />
 
       <section className="bg-ivory py-16 md:py-24">
@@ -39,7 +39,7 @@ function AboutPage() {
           <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
             <div className="overflow-hidden rounded-2xl shadow-card">
               <img
-                src="/images/team-photo.jpg"
+                src="https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/team-photo.jpg"
                 alt="Level Up Tile team with tile samples in the showroom"
                 className="aspect-[4/3] w-full object-cover"
               />
@@ -99,7 +99,7 @@ function AboutPage() {
 
       <section className="relative overflow-hidden bg-forest-deep py-20 md:py-28">
         <img
-          src="/images/hero-marble-bath.jpg"
+          src="https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/hero-marble-bath.jpg"
           alt=""
           className="absolute inset-0 h-full w-full object-cover opacity-30"
         />
@@ -114,7 +114,7 @@ function AboutPage() {
         </div>
       </section>
 
-      <CtaBand image="/images/cta-hex.jpg" />
+      <CtaBand image="https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/cta-hex.jpg" />
     </>
   );
 }

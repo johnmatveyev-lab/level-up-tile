@@ -26,7 +26,7 @@ function ProjectsPage() {
         eyebrow="Portfolio"
         title="Projects"
         description="A selection of recent installations for homeowners and design partners across the Upstate."
-        image="/images/kitchen-hero.jpg"
+        image="https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/kitchen-hero.jpg"
       />
 
       <section className="bg-ivory py-16 md:py-24">
@@ -72,7 +72,7 @@ function ProjectsPage() {
       <CtaBand
         title="Start your project"
         description="Whether you're renovating a powder room or building a new home, we'd love to collaborate."
-        image="/images/brand-marble.jpg"
+        image="https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/brand-marble.jpg"
       />
     </>
   );

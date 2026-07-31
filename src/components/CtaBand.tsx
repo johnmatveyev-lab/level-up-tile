@@ -11,7 +11,7 @@ type Props = {
 export function CtaBand({
   title = "Ready to Level Up?",
   description = "Premium tile design and installation for Greenville and the Upstate. Book a consultation and let's elevate every surface.",
-  image = "/images/cta-hex.jpg",
+  image = "https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/cta-hex.jpg",
 }: Props) {
   return (
     <section className="relative overflow-hidden">

@@ -26,7 +26,7 @@ function CollectionsPage() {
         eyebrow="Tile & Stone"
         title="Collections"
         description="Curated materials for baths, kitchens, living spaces, and outdoor rooms—selected for beauty, durability, and design flexibility."
-        image="/images/collection-samples.jpg"
+        image="https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/collection-samples.jpg"
       />
 
       <section className="bg-ivory py-16 md:py-24">

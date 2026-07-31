@@ -42,7 +42,7 @@ function ServicesPage() {
         eyebrow="What We Offer"
         title="Services"
         description="End-to-end tile and stone partnership—from first conversation to final walkthrough."
-        image="/images/project-shower.jpg"
+        image="https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/project-shower.jpg"
       />
 
       <section className="bg-ivory py-16 md:py-24">

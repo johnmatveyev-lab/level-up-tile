@@ -35,7 +35,7 @@ export const collections: Collection[] = [
     category: "Large Format",
     description:
       "Ultra-durable large-format porcelain with marble, stone, and concrete looks—ideal for floors, walls, and wet areas.",
-    image: "/images/collection-samples.jpg",
+    image: "https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/collection-samples.jpg",
     finishes: ["Matte", "Polished", "Structured"],
   },
   {
@@ -44,7 +44,7 @@ export const collections: Collection[] = [
     category: "Marble & Travertine",
     description:
       "Hand-selected marble, travertine, and limestone slabs and tiles with unique veining for statement surfaces.",
-    image: "/images/project-marble-kitchen.jpg",
+    image: "https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/project-marble-kitchen.jpg",
     finishes: ["Honed", "Polished", "Brushed"],
   },
   {
@@ -53,7 +53,7 @@ export const collections: Collection[] = [
     category: "Artisan",
     description:
       "Fish-scale, hex, and geometric mosaics that bring depth and craft to showers, backsplashes, and feature walls.",
-    image: "/images/project-emerald.jpg",
+    image: "https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/project-emerald.jpg",
     finishes: ["Gloss", "Crackle", "Matte"],
   },
   {
@@ -62,7 +62,7 @@ export const collections: Collection[] = [
     category: "Exterior",
     description:
       "Frost-resistant pavers and coordinating indoor-outdoor collections for patios, pool decks, and terraces.",
-    image: "/images/project-patio.jpg",
+    image: "https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/project-patio.jpg",
     finishes: ["Grip", "Textured"],
   },
   {
@@ -71,7 +71,7 @@ export const collections: Collection[] = [
     category: "Decorative",
     description:
       "Crafted ceramic for powder rooms and feature walls—rich glazes, subtle texture, and timeless color stories.",
-    image: "/images/cta-hex.jpg",
+    image: "https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/cta-hex.jpg",
     finishes: ["Gloss", "Satin"],
   },
   {
@@ -80,7 +80,7 @@ export const collections: Collection[] = [
     category: "Countertops & Vanities",
     description:
       "Quartzite, marble, and engineered stone for islands, vanities, and wet bars—precision templated and installed.",
-    image: "/images/project-powder.jpg",
+    image: "https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/project-powder.jpg",
     finishes: ["Polished", "Leathered"],
   },
 ];
@@ -103,7 +103,7 @@ export const projects: Project[] = [
     type: "Primary Bath",
     description:
       "Deep emerald fish-scale tile wraps the wet room, paired with a carved stone tub and matte black fixtures.",
-    image: "/images/project-emerald.jpg",
+    image: "https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/project-emerald.jpg",
     materials: ["Fish-scale porcelain", "Basalt tub", "Matte black hardware"],
   },
   {
@@ -113,7 +113,7 @@ export const projects: Project[] = [
     type: "Kitchen",
     description:
       "Forest-green cabinetry meets warm stone island and backsplash, opening to Blue Ridge views.",
-    image: "/images/kitchen-hero.jpg",
+    image: "https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/kitchen-hero.jpg",
     materials: ["Large-format porcelain", "Quartz island", "Brass fixtures"],
   },
   {
@@ -123,7 +123,7 @@ export const projects: Project[] = [
     type: "Bath Suite",
     description:
       "Book-matched marble walls, freestanding tub, and gold fixtures create a hotel-caliber sanctuary.",
-    image: "/images/brand-marble.jpg",
+    image: "https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/brand-marble.jpg",
     materials: ["Calacatta marble", "Brass fixtures", "Polished porcelain"],
   },
   {
@@ -133,7 +133,7 @@ export const projects: Project[] = [
     type: "Shower",
     description:
       "Full-height travertine slabs and a brass rainfall head for a spa retreat at home.",
-    image: "/images/project-shower.jpg",
+    image: "https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/project-shower.jpg",
     materials: ["Travertine", "Brushed brass", "Linear drain"],
   },
   {
@@ -143,7 +143,7 @@ export const projects: Project[] = [
     type: "Outdoor",
     description:
       "Large-format outdoor porcelain with dark joint lines frames evening entertaining spaces.",
-    image: "/images/project-patio.jpg",
+    image: "https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/project-patio.jpg",
     materials: ["20mm porcelain pavers", "Dark gravel joints"],
   },
   {
@@ -153,7 +153,7 @@ export const projects: Project[] = [
     type: "Powder Room",
     description:
       "Geometric charcoal floor tile, floating marble vanity, and deep green wall create an unforgettable powder room.",
-    image: "/images/project-powder.jpg",
+    image: "https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/project-powder.jpg",
     materials: ["Geometric ceramic", "Carrara vanity", "Gold hardware"],
   },
 ];

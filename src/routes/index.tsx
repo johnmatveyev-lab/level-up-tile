@@ -37,7 +37,7 @@ function HomePage() {
       {/* Hero */}
       <section className="relative min-h-[88vh] overflow-hidden bg-forest-deep">
         <img
-          src="/images/hero-main.jpg"
+          src="https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/hero-main.jpg"
           alt="Luxury bathroom with emerald fish-scale tile and freestanding stone tub"
           className="absolute inset-0 h-full w-full object-cover object-center"
         />
@@ -138,7 +138,7 @@ function HomePage() {
             </div>
             <div className="order-1 overflow-hidden rounded-2xl shadow-card lg:order-2">
               <img
-                src="/images/kitchen-hero.jpg"
+                src="https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/kitchen-hero.jpg"
                 alt="Luxury green kitchen with stone island overlooking mountains"
                 className="aspect-[4/3] w-full object-cover"
               />
@@ -296,7 +296,7 @@ function HomePage() {
           <div className="grid items-stretch overflow-hidden rounded-2xl bg-cream shadow-soft lg:grid-cols-2">
             <div className="relative min-h-[280px] lg:min-h-0">
               <img
-                src="/images/team-photo.jpg"
+                src="https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/team-photo.jpg"
                 alt="Level Up Tile team in the showroom"
                 className="absolute inset-0 h-full w-full object-cover"
               />
