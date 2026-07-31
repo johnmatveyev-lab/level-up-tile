@@ -1,0 +1,14 @@
+node_modules
+.DS_Store
+dist
+.vercel/output
+.nitro
+.output
+node_modules/.nitro
+*.log
+.tmp
+.routeTree.gen.ts.bak
+screenshots
+artifacts
+attachments
+.node_modules.tmp.*
