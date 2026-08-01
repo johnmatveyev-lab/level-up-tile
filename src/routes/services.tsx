@@ -14,24 +14,22 @@ import {
   brand,
   copy,
   images,
-  pageDescription,
   pageTitle,
   processSteps,
   services,
 } from "@/lib/data";
+import { buildMeta, siteUrl } from "@/lib/seo";
 
 export const Route = createFileRoute("/services")({
   component: ServicesPage,
   head: () => ({
-    meta: [
-      { title: pageTitle("Services") },
-      {
-        name: "description",
-        content: pageDescription(
-          `Design consultation, material curation, and precision installation from ${brand.name}.`,
-        ),
-      },
-    ],
+    meta: buildMeta({
+      title: pageTitle("Services"),
+      description: `Design consultation, material curation, and precision installation from ${brand.name}.`,
+      path: "/services",
+      image: images.marbleBath,
+    }),
+    links: [{ rel: "canonical", href: `${siteUrl}/services` }],
   }),
 });
 

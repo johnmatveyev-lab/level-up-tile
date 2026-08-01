@@ -6,22 +6,20 @@ import {
   collections,
   copy,
   images,
-  pageDescription,
   pageTitle,
 } from "@/lib/data";
+import { buildMeta, siteUrl } from "@/lib/seo";
 
 export const Route = createFileRoute("/collections")({
   component: CollectionsPage,
   head: () => ({
-    meta: [
-      { title: pageTitle("Collections") },
-      {
-        name: "description",
-        content: pageDescription(
-          `Explore porcelain, natural stone, mosaic, and outdoor collections from ${brand.name}.`,
-        ),
-      },
-    ],
+    meta: buildMeta({
+      title: pageTitle("Collections"),
+      description: `Explore porcelain, natural stone, mosaic, and outdoor collections from ${brand.name}.`,
+      path: "/collections",
+      image: images.collections,
+    }),
+    links: [{ rel: "canonical", href: `${siteUrl}/collections` }],
   }),
 });
 

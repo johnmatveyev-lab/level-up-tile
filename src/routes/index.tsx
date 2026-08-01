@@ -5,6 +5,7 @@ import {
   Leaf,
   Lightbulb,
   MapPin,
+  Mic,
   Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -15,16 +16,22 @@ import {
   collections,
   copy,
   images,
-  pageTitle,
   processSteps,
   projects,
   values,
 } from "@/lib/data";
+import { buildMeta, siteUrl } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
   head: () => ({
-    meta: [{ title: pageTitle() }],
+    meta: buildMeta({
+      title: `${brand.name} | ${brand.sub} — ${brand.location}`,
+      description: brand.description,
+      path: "/",
+      image: images.hero,
+    }),
+    links: [{ rel: "canonical", href: `${siteUrl}/` }],
   }),
 });
 
@@ -33,7 +40,6 @@ const valueIcons = [Hammer, Leaf, Lightbulb, MapPin];
 function HomePage() {
   return (
     <>
-      {/* Hero */}
       <section className="relative min-h-[88vh] overflow-hidden bg-forest-deep">
         <img
           src={images.hero}
@@ -68,12 +74,27 @@ function HomePage() {
               <Button asChild size="xl" variant="outlineLight">
                 <Link to="/projects">{copy.hero.ctaSecondary}</Link>
               </Button>
+              <Button
+                type="button"
+                size="xl"
+                variant="outlineLight"
+                className="gap-2"
+                onClick={() => {
+                  document
+                    .querySelector<HTMLButtonElement>(
+                      '[aria-label="Speak with Aria, voice agent"]',
+                    )
+                    ?.click();
+                }}
+              >
+                <Mic className="h-4 w-4" />
+                Talk to Aria
+              </Button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Intro strip */}
       <section className="border-b border-border bg-cream">
         <div className="mx-auto grid max-w-7xl gap-8 px-5 py-12 md:grid-cols-3 md:px-8 md:py-14">
           {copy.highlights.map((item) => (
@@ -90,7 +111,6 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Signature work */}
       <section className="bg-ivory py-20 md:py-28">
         <div className="mx-auto max-w-7xl px-5 md:px-8">
           <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
@@ -129,7 +149,6 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Collections preview */}
       <section className="bg-cream py-20 md:py-28">
         <div className="mx-auto max-w-7xl px-5 md:px-8">
           <div className="mb-12 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
@@ -176,7 +195,6 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Process */}
       <section className="bg-forest-deep py-20 md:py-28">
         <div className="mx-auto max-w-7xl px-5 md:px-8">
           <SectionHeading
@@ -201,7 +219,6 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Projects grid */}
       <section className="bg-ivory py-20 md:py-28">
         <div className="mx-auto max-w-7xl px-5 md:px-8">
           <div className="mb-12 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
@@ -244,7 +261,6 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Values */}
       <section className="bg-cream-warm py-20 md:py-28">
         <div className="mx-auto max-w-7xl px-5 md:px-8">
           <SectionHeading
@@ -272,7 +288,6 @@ function HomePage() {
         </div>
       </section>
 
-      {/* About teaser */}
       <section className="bg-ivory py-20 md:py-28">
         <div className="mx-auto max-w-7xl px-5 md:px-8">
           <div className="grid items-stretch overflow-hidden rounded-2xl bg-cream shadow-soft lg:grid-cols-2">

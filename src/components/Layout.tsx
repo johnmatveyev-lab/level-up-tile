@@ -1,5 +1,6 @@
 import { Header } from "./Header";
 import { Footer } from "./Footer";
+import { VoiceAgent } from "./VoiceAgent";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -7,6 +8,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <Header />
       <main className="flex-1 pt-[4.5rem]">{children}</main>
       <Footer />
+      <VoiceAgent />
     </div>
   );
 }

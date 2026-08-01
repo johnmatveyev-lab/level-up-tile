@@ -1,91 +1,114 @@
 # Tile Contractor Website Template
 
-A production-ready marketing site for **tile & stone contractors** — design consultation, material collections, project portfolio, services, about, and lead-capture contact form.
+Production-ready marketing site for **tile & stone contractors**, with:
+
+- Luxury multi-page marketing experience
+- **Booking widget** (consultation scheduling)
+- **xAI Grok Voice agent (“Aria”)** with full site + industry knowledge base
+- SEO (meta, Open Graph, Twitter, JSON-LD, sitemap, robots)
 
 **Demo brand:** Level Up Tile (Greenville & Upstate SC)  
 **Live:** [level-up-tile.vercel.app](https://level-up-tile.vercel.app)
 
 ---
 
-## Rebrand for your contractor (5 minutes)
+## Rebrand (5 minutes)
 
-Everything company-specific lives in **one file**:
-
-```
-src/lib/data.ts
-```
+Edit **`src/lib/data.ts`** only:
 
 | Section | What to change |
 | --- | --- |
-| `brand` | Name, initials, tagline, phone, email, location, SEO description |
-| `copy` | Hero, CTAs, about story, contact success message |
-| `images` | Photo filenames / URLs (see `public/images/`) |
-| `collections` | Material categories you sell |
-| `projects` | Portfolio case studies |
-| `services` | Service offerings |
-| `values` / `processSteps` | Brand values & process |
+| `brand` | Name, initials, tagline, phone, email, location |
+| `copy` | Hero, CTAs, about, contact copy |
+| `images` | Photos |
+| `collections` / `projects` / `services` | Catalog content |
 
-### Quick rebrand checklist
-
-1. Edit `brand.name`, `brand.initials`, `brand.tagline`, `brand.sub`
-2. Set `phone`, `email`, `address`, `location`, `serving`
-3. Replace project locations and copy with your market
-4. Drop your photos into `public/images/` (or point `images.*` at CDN URLs)
-5. Update `package.json` `name` and this README
-
-No other files need edits for a standard contractor rebrand — logo, footer, SEO titles, CTAs, and pages all pull from `data.ts`.
+Voice knowledge rebuilds automatically from that data (`src/lib/voice/knowledge.ts`).
 
 ---
 
-## Pages included
+## xAI Voice Agent (Aria)
+
+Floating **Talk to Aria** button on every page.
+
+| Mode | When | Behavior |
+| --- | --- | --- |
+| **Grok Voice (xAI)** | `XAI_API_KEY` set | Realtime speech-to-speech via `wss://api.x.ai/v1/realtime`, ephemeral tokens from `/v1/realtime/client_secrets` |
+| **Demo** | No key | On-device speech recognition + TTS using the same knowledge base |
+
+### Setup for production Grok Voice
+
+1. Create an API key at [console.x.ai](https://console.x.ai)
+2. Set env var: `XAI_API_KEY=xai-...`
+3. Redeploy (Vercel project settings → Environment Variables)
+
+The agent:
+
+- Is instructed as **Aria**, design concierge for the brand
+- Loads the full company + collections + projects + services + tile industry KB
+- Can call **`book_consultation`** to create real bookings (same store as the web form)
+
+Knowledge sources:
+
+- Runtime: `src/lib/voice/knowledge.ts`
+- Static pack: `public/knowledge/level-up-tile-kb.md`
+
+---
+
+## Booking widget
+
+`/contact` includes a full consultation booker:
+
+- Weekday date options
+- Morning / afternoon / late windows
+- Project type + notes
+- Confirmation ID on success
+
+Server functions: `src/lib/booking.ts` (in-memory store — swap for CRM/email in production).
+
+Voice and web share the same booking API.
+
+---
+
+## SEO
+
+- Per-route titles, descriptions, keywords, geo
+- Open Graph + Twitter cards
+- Canonical URLs
+- `LocalBusiness` JSON-LD (`HomeAndConstructionBusiness`)
+- `/robots.txt` + `/sitemap.xml`
+
+Configure public URL with `VITE_SITE_URL` (defaults to production domain).
+
+---
+
+## Pages
 
 | Route | Purpose |
 | --- | --- |
-| `/` | Hero, highlights, signature work, collections preview, process, projects, values, about teaser, CTA |
-| `/collections` | Material catalog grid |
-| `/projects` | Portfolio with materials tags |
+| `/` | Home + Talk to Aria CTA |
+| `/collections` | Materials |
+| `/projects` | Portfolio |
 | `/services` | Services + process |
 | `/about` | Story + values |
-| `/contact` | Lead form + contact details |
-
----
-
-## Design system
-
-Forest green + champagne gold + cream luxury palette (tailored for tile/stone brands).
-
-- Display: Cormorant Garamond  
-- Body: Outfit  
-- Tokens: `src/styles.css` (`@theme`)
-
-To recolor: change CSS variables in `src/styles.css` and `brand.themeColor` in `data.ts`.
+| `/contact` | Booking widget + contact |
 
 ---
 
 ## Stack
 
-- React 19 + TypeScript  
-- TanStack Start / Router  
-- Tailwind CSS v4  
-- Vite 8  
-- Deploy target: Vercel (Nitro preset)
-
-## Develop
+React 19, TypeScript, TanStack Start, Tailwind v4, Vite 8, Vercel/Nitro.
 
 ```bash
 npm install
 npm run dev
-```
-
-## Build
-
-```bash
 npm run build
 npm run typecheck
 ```
 
-## Template notes
+### Env
 
-- Contact form is **demo UX** (success state client-side). Hook to Formspree, Resend, or your CRM in `src/routes/contact.tsx`.
-- Images ship under `public/images/`; `data.ts` also resolves a CDN fallback for demos.
-- Auth/multiplayer scaffolding from the base kit is unused by this marketing template and can stay as-is.
+| Variable | Required | Purpose |
+| --- | --- | --- |
+| `XAI_API_KEY` | For live voice | Grok Voice ephemeral tokens |
+| `VITE_SITE_URL` | Optional | Canonical site URL for SEO |

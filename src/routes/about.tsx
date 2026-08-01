@@ -8,21 +8,21 @@ import {
   brand,
   copy,
   images,
-  pageDescription,
   pageTitle,
   values,
 } from "@/lib/data";
+import { buildMeta, siteUrl } from "@/lib/seo";
 
 export const Route = createFileRoute("/about")({
   component: AboutPage,
   head: () => ({
-    meta: [
-      { title: pageTitle("About") },
-      {
-        name: "description",
-        content: pageDescription(copy.aboutPage.heroDescription),
-      },
-    ],
+    meta: buildMeta({
+      title: pageTitle("About"),
+      description: copy.aboutPage.heroDescription,
+      path: "/about",
+      image: images.marbleBath,
+    }),
+    links: [{ rel: "canonical", href: `${siteUrl}/about` }],
   }),
 });
 

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://level-up-tile.vercel.app/sitemap.xml

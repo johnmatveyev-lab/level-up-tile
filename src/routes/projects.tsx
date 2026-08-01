@@ -5,23 +5,21 @@ import {
   brand,
   copy,
   images,
-  pageDescription,
   pageTitle,
   projects,
 } from "@/lib/data";
+import { buildMeta, siteUrl } from "@/lib/seo";
 
 export const Route = createFileRoute("/projects")({
   component: ProjectsPage,
   head: () => ({
-    meta: [
-      { title: pageTitle("Projects") },
-      {
-        name: "description",
-        content: pageDescription(
-          `Browse ${brand.name} projects across ${brand.location}—baths, kitchens, outdoor living, and more.`,
-        ),
-      },
-    ],
+    meta: buildMeta({
+      title: pageTitle("Projects"),
+      description: `Browse ${brand.name} projects across ${brand.location}—baths, kitchens, outdoor living, and more.`,
+      path: "/projects",
+      image: images.kitchen,
+    }),
+    links: [{ rel: "canonical", href: `${siteUrl}/projects` }],
   }),
 });
 

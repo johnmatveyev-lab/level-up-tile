@@ -1,39 +1,24 @@
-import { useState, type FormEvent } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { CheckCircle2, Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Mic, Phone } from "lucide-react";
 import { PageHero } from "@/components/PageHero";
-import { Button } from "@/components/ui/button";
-import { brand, copy, images, pageDescription, pageTitle } from "@/lib/data";
-import { cn } from "@/lib/utils";
+import { BookingWidget } from "@/components/BookingWidget";
+import { brand, copy, images, pageTitle } from "@/lib/data";
+import { buildMeta } from "@/lib/seo";
 
 export const Route = createFileRoute("/contact")({
   component: ContactPage,
   head: () => ({
-    meta: [
-      { title: pageTitle("Contact") },
-      {
-        name: "description",
-        content: pageDescription(
-          `Book a consultation with ${brand.name}. ${brand.description}`,
-        ),
-      },
-    ],
+    meta: buildMeta({
+      title: pageTitle("Contact & Book Consultation"),
+      description: `Book a design consultation with ${brand.name}. ${brand.description}`,
+      path: "/contact",
+      image: images.cta,
+    }),
+    links: [{ rel: "canonical", href: "https://level-up-tile.vercel.app/contact" }],
   }),
 });
 
 function ContactPage() {
-  const [submitted, setSubmitted] = useState(false);
-  const [sending, setSending] = useState(false);
-
-  function onSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setSending(true);
-    window.setTimeout(() => {
-      setSending(false);
-      setSubmitted(true);
-    }, 700);
-  }
-
   return (
     <>
       <PageHero
@@ -96,128 +81,28 @@ function ContactPage() {
                   </a>
                 </div>
               </li>
+              <li className="flex gap-3">
+                <Mic className="mt-0.5 h-5 w-5 shrink-0 text-gold" />
+                <div>
+                  <p className="text-xs font-medium tracking-[0.15em] uppercase text-stone">
+                    Voice agent
+                  </p>
+                  <p className="mt-1 text-sm text-forest">
+                    Tap <strong>Talk to Aria</strong> (bottom right) — Grok Voice
+                    agent with full site & industry knowledge.
+                  </p>
+                </div>
+              </li>
             </ul>
 
             <p className="mt-10 text-sm text-ink-muted">{brand.hours}</p>
           </div>
 
           <div className="lg:col-span-3">
-            <div className="rounded-2xl border border-border bg-cream p-6 shadow-soft md:p-8">
-              {submitted ? (
-                <div className="flex flex-col items-center py-12 text-center">
-                  <CheckCircle2
-                    className="h-12 w-12 text-forest-soft"
-                    strokeWidth={1.5}
-                  />
-                  <h3 className="mt-4 font-display text-3xl text-forest">
-                    {copy.contactPage.successTitle}
-                  </h3>
-                  <p className="mt-3 max-w-md text-sm text-ink-muted">
-                    {copy.contactPage.successBody}
-                  </p>
-                  <Button
-                    className="mt-8"
-                    variant="outline"
-                    onClick={() => setSubmitted(false)}
-                  >
-                    Send another message
-                  </Button>
-                </div>
-              ) : (
-                <form onSubmit={onSubmit} className="space-y-5">
-                  <div className="grid gap-5 sm:grid-cols-2">
-                    <Field label="First name" name="firstName" required />
-                    <Field label="Last name" name="lastName" required />
-                  </div>
-                  <div className="grid gap-5 sm:grid-cols-2">
-                    <Field label="Email" name="email" type="email" required />
-                    <Field label="Phone" name="phone" type="tel" />
-                  </div>
-                  <Field
-                    label="Project type"
-                    name="projectType"
-                    as="select"
-                    options={[
-                      "Primary bath",
-                      "Kitchen",
-                      "Powder room",
-                      "Outdoor / patio",
-                      "Whole home",
-                      "Commercial",
-                      "Other",
-                    ]}
-                  />
-                  <Field
-                    label="Tell us about your project"
-                    name="message"
-                    as="textarea"
-                    required
-                  />
-                  <Button
-                    type="submit"
-                    size="lg"
-                    variant="gold"
-                    className="w-full sm:w-auto"
-                    disabled={sending}
-                  >
-                    {sending ? "Sending…" : "Request Consultation"}
-                  </Button>
-                </form>
-              )}
-            </div>
+            <BookingWidget />
           </div>
         </div>
       </section>
     </>
-  );
-}
-
-function Field({
-  label,
-  name,
-  type = "text",
-  required,
-  as = "input",
-  options,
-}: {
-  label: string;
-  name: string;
-  type?: string;
-  required?: boolean;
-  as?: "input" | "textarea" | "select";
-  options?: string[];
-}) {
-  const base =
-    "mt-1.5 w-full rounded-lg border border-forest/15 bg-ivory px-3.5 py-2.5 text-sm text-forest outline-none transition-colors placeholder:text-stone focus:border-gold focus:ring-2 focus:ring-gold/25";
-
-  return (
-    <label className="block">
-      <span className="text-xs font-medium tracking-[0.12em] uppercase text-stone">
-        {label}
-        {required && <span className="text-gold-dark"> *</span>}
-      </span>
-      {as === "textarea" ? (
-        <textarea
-          name={name}
-          required={required}
-          rows={5}
-          className={cn(base, "resize-y min-h-[120px]")}
-          placeholder="Timeline, rooms, materials you're considering…"
-        />
-      ) : as === "select" ? (
-        <select name={name} required={required} className={base} defaultValue="">
-          <option value="" disabled>
-            Select…
-          </option>
-          {options?.map((o) => (
-            <option key={o} value={o}>
-              {o}
-            </option>
-          ))}
-        </select>
-      ) : (
-        <input name={name} type={type} required={required} className={base} />
-      )}
-    </label>
   );
 }
