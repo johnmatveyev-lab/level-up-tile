@@ -1,5 +1,5 @@
 {
-  "name": "level-up-tile",
+  "name": "tile-contractor-template",
   "private": true,
   "sideEffects": false,
   "type": "module",
@@ -88,5 +88,6 @@
     "typescript": "^5.7.0",
     "typescript-eslint": "^8.56.1",
     "vite": "^8.1.0"
-  }
+  },
+  "description": "Luxury tile & stone contractor website template"
 }

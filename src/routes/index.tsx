@@ -13,6 +13,9 @@ import { CtaBand } from "@/components/CtaBand";
 import {
   brand,
   collections,
+  copy,
+  images,
+  pageTitle,
   processSteps,
   projects,
   values,
@@ -21,11 +24,7 @@ import {
 export const Route = createFileRoute("/")({
   component: HomePage,
   head: () => ({
-    meta: [
-      {
-        title: "Level Up Tile | Luxury Tile & Stone — Greenville & Upstate SC",
-      },
-    ],
+    meta: [{ title: pageTitle() }],
   }),
 });
 
@@ -37,8 +36,8 @@ function HomePage() {
       {/* Hero */}
       <section className="relative min-h-[88vh] overflow-hidden bg-forest-deep">
         <img
-          src="https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/hero-main.jpg"
-          alt="Luxury bathroom with emerald fish-scale tile and freestanding stone tub"
+          src={images.hero}
+          alt={`${brand.sub} installation showcase`}
           className="absolute inset-0 h-full w-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-forest-deep/95 via-forest-deep/72 to-forest-deep/30" />
@@ -50,24 +49,24 @@ function HomePage() {
               {brand.sub} · {brand.location}
             </p>
             <h1 className="font-display text-5xl leading-[1.05] text-cream sm:text-6xl md:text-7xl">
-              Elevate Every Surface
+              {copy.hero.headline}
             </h1>
             <div className="mt-6 flex items-start gap-3 border-l-2 border-gold pl-5">
               <p className="text-base text-cream/90 md:text-lg">
-                Premium Tile & Stone Design + Installation
+                {copy.hero.support}
                 <br />
-                <span className="text-cream/70">Greenville & Upstate SC</span>
+                <span className="text-cream/70">{brand.location}</span>
               </p>
             </div>
             <div className="mt-10 flex flex-wrap gap-3">
               <Button asChild size="xl" variant="gold">
                 <Link to="/contact">
-                  Book a Consultation
+                  {copy.hero.ctaPrimary}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
               <Button asChild size="xl" variant="outlineLight">
-                <Link to="/projects">View Projects</Link>
+                <Link to="/projects">{copy.hero.ctaSecondary}</Link>
               </Button>
             </div>
           </div>
@@ -77,20 +76,7 @@ function HomePage() {
       {/* Intro strip */}
       <section className="border-b border-border bg-cream">
         <div className="mx-auto grid max-w-7xl gap-8 px-5 py-12 md:grid-cols-3 md:px-8 md:py-14">
-          {[
-            {
-              label: "Design + Install",
-              text: "One team from sample board to final grout line.",
-            },
-            {
-              label: "Upstate Focused",
-              text: "Rooted in Greenville, serving the greater Upstate.",
-            },
-            {
-              label: "Premium Materials",
-              text: "Porcelain, natural stone, and artisan tile curated for longevity.",
-            },
-          ].map((item) => (
+          {copy.highlights.map((item) => (
             <div key={item.label} className="flex gap-4">
               <Sparkles className="mt-1 h-4 w-4 shrink-0 text-gold" />
               <div>
@@ -104,22 +90,18 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Featured project / kitchen lifestyle */}
+      {/* Signature work */}
       <section className="bg-ivory py-20 md:py-28">
         <div className="mx-auto max-w-7xl px-5 md:px-8">
           <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
             <div className="order-2 lg:order-1">
               <SectionHeading
-                eyebrow="Signature Work"
-                title="Spaces that feel intentional"
-                description="From emerald spa baths to mountain-view kitchens, we craft surfaces that elevate how you live—and how your home is remembered."
+                eyebrow={copy.signature.eyebrow}
+                title={copy.signature.title}
+                description={copy.signature.description}
               />
               <ul className="mt-8 space-y-4">
-                {[
-                  "Custom layouts and pattern design",
-                  "Large-format & natural stone expertise",
-                  "Coordination with designers and builders",
-                ].map((line) => (
+                {copy.signature.bullets.map((line) => (
                   <li
                     key={line}
                     className="flex items-center gap-3 text-sm text-ink-muted"
@@ -131,15 +113,15 @@ function HomePage() {
               </ul>
               <Button asChild className="mt-8" variant="forest">
                 <Link to="/projects">
-                  Explore the Portfolio
+                  {copy.signature.cta}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
             </div>
             <div className="order-1 overflow-hidden rounded-2xl shadow-card lg:order-2">
               <img
-                src="https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/kitchen-hero.jpg"
-                alt="Luxury green kitchen with stone island overlooking mountains"
+                src={images.kitchen}
+                alt="Luxury kitchen with stone surfaces"
                 className="aspect-[4/3] w-full object-cover"
               />
             </div>
@@ -152,9 +134,9 @@ function HomePage() {
         <div className="mx-auto max-w-7xl px-5 md:px-8">
           <div className="mb-12 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
             <SectionHeading
-              eyebrow="Collections"
-              title="Materials that define the room"
-              description="Porcelain, natural stone, mosaic, and outdoor surfaces—selected for beauty and performance."
+              eyebrow={copy.collectionsIntro.eyebrow}
+              title={copy.collectionsIntro.title}
+              description={copy.collectionsIntro.description}
             />
             <Button asChild variant="outline" className="shrink-0">
               <Link to="/collections">
@@ -198,8 +180,8 @@ function HomePage() {
       <section className="bg-forest-deep py-20 md:py-28">
         <div className="mx-auto max-w-7xl px-5 md:px-8">
           <SectionHeading
-            eyebrow="How We Work"
-            title="A clear path to elevated surfaces"
+            eyebrow={copy.processIntro.eyebrow}
+            title={copy.processIntro.title}
             theme="dark"
             className="mb-14"
           />
@@ -224,9 +206,9 @@ function HomePage() {
         <div className="mx-auto max-w-7xl px-5 md:px-8">
           <div className="mb-12 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
             <SectionHeading
-              eyebrow="Projects"
-              title="Recent installations"
-              description="Baths, kitchens, and outdoor living across Greenville and the Upstate."
+              eyebrow={copy.projectsIntro.eyebrow}
+              title={copy.projectsIntro.title}
+              description={copy.projectsIntro.description}
             />
             <Button asChild variant="outline" className="shrink-0">
               <Link to="/projects">
@@ -266,8 +248,8 @@ function HomePage() {
       <section className="bg-cream-warm py-20 md:py-28">
         <div className="mx-auto max-w-7xl px-5 md:px-8">
           <SectionHeading
-            eyebrow="Our Values"
-            title="What guides every project"
+            eyebrow={copy.valuesIntro.eyebrow}
+            title={copy.valuesIntro.title}
             align="center"
             className="mb-14"
           />
@@ -296,20 +278,20 @@ function HomePage() {
           <div className="grid items-stretch overflow-hidden rounded-2xl bg-cream shadow-soft lg:grid-cols-2">
             <div className="relative min-h-[280px] lg:min-h-0">
               <img
-                src="https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/team-photo.jpg"
-                alt="Level Up Tile team in the showroom"
+                src={images.team}
+                alt={`${brand.name} team`}
                 className="absolute inset-0 h-full w-full object-cover"
               />
             </div>
             <div className="flex flex-col justify-center p-8 md:p-12 lg:p-14">
               <SectionHeading
-                eyebrow="Our Story"
-                title="Born in Greenville to elevate Upstate living"
-                description="We craft exceptional tile and stone installations with precision and soul for discerning homeowners, designers, and builders."
+                eyebrow={copy.aboutTeaser.eyebrow}
+                title={copy.aboutTeaser.title}
+                description={copy.aboutTeaser.description}
               />
               <Button asChild className="mt-8 w-fit" variant="forest">
                 <Link to="/about">
-                  Meet the Team
+                  {copy.aboutTeaser.cta}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>

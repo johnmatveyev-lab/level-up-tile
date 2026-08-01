@@ -10,19 +10,26 @@ import { PageHero } from "@/components/PageHero";
 import { SectionHeading } from "@/components/SectionHeading";
 import { CtaBand } from "@/components/CtaBand";
 import { Button } from "@/components/ui/button";
-import { processSteps, services } from "@/lib/data";
+import {
+  brand,
+  copy,
+  images,
+  pageDescription,
+  pageTitle,
+  processSteps,
+  services,
+} from "@/lib/data";
 
 export const Route = createFileRoute("/services")({
   component: ServicesPage,
   head: () => ({
     meta: [
-      {
-        title: "Services | Level Up Tile — Design, Curation & Installation",
-      },
+      { title: pageTitle("Services") },
       {
         name: "description",
-        content:
-          "Design consultation, material curation, precision installation, and full project partnership for tile and stone in Greenville, SC.",
+        content: pageDescription(
+          `Design consultation, material curation, and precision installation from ${brand.name}.`,
+        ),
       },
     ],
   }),
@@ -41,8 +48,8 @@ function ServicesPage() {
       <PageHero
         eyebrow="What We Offer"
         title="Services"
-        description="End-to-end tile and stone partnership—from first conversation to final walkthrough."
-        image="https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/project-shower.jpg"
+        description={copy.servicesPage.description}
+        image={images.marbleBath}
       />
 
       <section className="bg-ivory py-16 md:py-24">
@@ -53,15 +60,15 @@ function ServicesPage() {
               return (
                 <div
                   key={s.title}
-                  className="rounded-2xl border border-border bg-cream p-8 shadow-soft"
+                  className="rounded-2xl border border-border bg-cream p-7 shadow-soft md:p-8"
                 >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full border border-gold/40 text-forest">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full border border-gold/40 text-forest-soft">
                     <Icon className="h-5 w-5" strokeWidth={1.5} />
                   </div>
-                  <h2 className="mt-5 font-display text-2xl text-forest md:text-3xl">
+                  <h2 className="mt-5 font-display text-2xl text-forest">
                     {s.title}
                   </h2>
-                  <p className="mt-3 text-sm leading-relaxed text-ink-muted md:text-base">
+                  <p className="mt-3 text-sm leading-relaxed text-ink-muted">
                     {s.description}
                   </p>
                 </div>
@@ -74,8 +81,8 @@ function ServicesPage() {
       <section className="bg-forest-deep py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-5 md:px-8">
           <SectionHeading
-            eyebrow="Process"
-            title="From vision to finished surface"
+            eyebrow={copy.processIntro.eyebrow}
+            title={copy.processIntro.title}
             theme="dark"
             className="mb-12"
           />
@@ -86,41 +93,18 @@ function ServicesPage() {
                 <h3 className="mt-3 font-display text-xl text-cream">
                   {s.title}
                 </h3>
-                <p className="mt-2 text-sm text-cream/65">{s.description}</p>
+                <p className="mt-2 text-sm leading-relaxed text-cream/65">
+                  {s.description}
+                </p>
               </div>
             ))}
           </div>
-          <div className="mt-12">
-            <Button asChild size="lg" variant="gold">
-              <Link to="/contact">
-                Schedule a Consultation
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-cream py-16 md:py-20">
-        <div className="mx-auto max-w-3xl px-5 text-center md:px-8">
-          <h2 className="font-display text-3xl text-forest md:text-4xl">
-            Who we work with
-          </h2>
-          <p className="mt-4 text-ink-muted">
-            Homeowners renovating signature spaces, interior designers seeking a
-            reliable install partner, and builders who need precision tile and
-            stone trades that protect the schedule.
-          </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            {["Homeowners", "Designers", "Builders", "Remodelers"].map((t) => (
-              <span
-                key={t}
-                className="rounded-full border border-forest/15 bg-ivory px-4 py-2 text-xs font-medium tracking-[0.12em] uppercase text-forest"
-              >
-                {t}
-              </span>
-            ))}
-          </div>
+          <Button asChild className="mt-12" size="lg" variant="gold">
+            <Link to="/contact">
+              Book a Consultation
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </Button>
         </div>
       </section>
 

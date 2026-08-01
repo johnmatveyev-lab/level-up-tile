@@ -3,20 +3,19 @@ import { createFileRoute } from "@tanstack/react-router";
 import { CheckCircle2, Mail, MapPin, Phone } from "lucide-react";
 import { PageHero } from "@/components/PageHero";
 import { Button } from "@/components/ui/button";
-import { brand } from "@/lib/data";
+import { brand, copy, images, pageDescription, pageTitle } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/contact")({
   component: ContactPage,
   head: () => ({
     meta: [
-      {
-        title: "Contact | Level Up Tile — Book a Consultation",
-      },
+      { title: pageTitle("Contact") },
       {
         name: "description",
-        content:
-          "Book a consultation with Level Up Tile. Premium tile and stone design and installation in Greenville and Upstate SC.",
+        content: pageDescription(
+          `Book a consultation with ${brand.name}. ${brand.description}`,
+        ),
       },
     ],
   }),
@@ -29,7 +28,6 @@ function ContactPage() {
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setSending(true);
-    // Demo form — success state for UX; no backend required
     window.setTimeout(() => {
       setSending(false);
       setSubmitted(true);
@@ -40,9 +38,9 @@ function ContactPage() {
     <>
       <PageHero
         eyebrow="Get in Touch"
-        title="Book a Consultation"
-        description="Tell us about your space. We'll follow up to schedule a showroom or on-site conversation."
-        image="https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/cta-hex.jpg"
+        title={copy.contactPage.heroTitle}
+        description={copy.contactPage.heroDescription}
+        image={images.cta}
         compact
       />
 
@@ -50,12 +48,10 @@ function ContactPage() {
         <div className="mx-auto grid max-w-7xl gap-12 px-5 md:px-8 lg:grid-cols-5 lg:gap-16">
           <div className="lg:col-span-2">
             <h2 className="font-display text-3xl text-forest">
-              Let's elevate your home
+              {copy.contactPage.formTitle}
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-ink-muted md:text-base">
-              Whether you're selecting materials for a primary bath remodel or
-              coordinating with your builder on a new construction, we're here
-              to guide the process.
+              {copy.contactPage.formLead}
             </p>
 
             <ul className="mt-10 space-y-5">
@@ -68,7 +64,7 @@ function ContactPage() {
                   <p className="mt-1 text-sm text-forest">
                     {brand.address}
                     <br />
-                    Serving Greenville & Upstate SC
+                    {brand.serving}
                   </p>
                 </div>
               </li>
@@ -109,13 +105,15 @@ function ContactPage() {
             <div className="rounded-2xl border border-border bg-cream p-6 shadow-soft md:p-8">
               {submitted ? (
                 <div className="flex flex-col items-center py-12 text-center">
-                  <CheckCircle2 className="h-12 w-12 text-forest-soft" strokeWidth={1.5} />
+                  <CheckCircle2
+                    className="h-12 w-12 text-forest-soft"
+                    strokeWidth={1.5}
+                  />
                   <h3 className="mt-4 font-display text-3xl text-forest">
-                    Request received
+                    {copy.contactPage.successTitle}
                   </h3>
                   <p className="mt-3 max-w-md text-sm text-ink-muted">
-                    Thank you. A member of the Level Up Tile team will be in
-                    touch shortly to schedule your consultation.
+                    {copy.contactPage.successBody}
                   </p>
                   <Button
                     className="mt-8"
@@ -218,12 +216,7 @@ function Field({
           ))}
         </select>
       ) : (
-        <input
-          name={name}
-          type={type}
-          required={required}
-          className={base}
-        />
+        <input name={name} type={type} required={required} className={base} />
       )}
     </label>
   );

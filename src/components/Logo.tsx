@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
+import { brand } from "@/lib/data";
 
 type LogoProps = {
   className?: string;
@@ -16,7 +17,7 @@ export function Logo({ className, theme = "dark", size = "md" }: LogoProps) {
     <Link
       to="/"
       className={cn("group flex items-center gap-3 no-underline", className)}
-      aria-label="Level Up Tile home"
+      aria-label={`${brand.name} home`}
     >
       <span
         className={cn(
@@ -26,19 +27,14 @@ export function Logo({ className, theme = "dark", size = "md" }: LogoProps) {
         )}
         aria-hidden
       >
-        {/* Geometric LU monogram */}
-        <svg
-          viewBox="0 0 40 40"
-          className={cn(size === "sm" ? "h-6 w-6" : "h-7 w-7")}
-          fill="currentColor"
+        <span
+          className={cn(
+            "font-display font-medium tracking-tight",
+            size === "sm" ? "text-sm" : "text-base",
+          )}
         >
-          <path d="M8 8h5.2v17.2H22V30H8V8z" />
-          <path d="M24 8h5.2v22H24V8z" opacity="0.85" />
-          <path
-            d="M8 8h18.2v3.2H13.2v14H22V28.4H8V8z"
-            fill="none"
-          />
-        </svg>
+          {brand.initials}
+        </span>
       </span>
       <div className="flex flex-col leading-none">
         <span
@@ -48,7 +44,7 @@ export function Logo({ className, theme = "dark", size = "md" }: LogoProps) {
             ink,
           )}
         >
-          Level Up Tile
+          {brand.name}
         </span>
         <span
           className={cn(
@@ -57,7 +53,7 @@ export function Logo({ className, theme = "dark", size = "md" }: LogoProps) {
             sub,
           )}
         >
-          Luxury Tile & Stone
+          {brand.sub}
         </span>
       </div>
     </Link>

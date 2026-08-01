@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { Logo } from "./Logo";
-import { brand, nav } from "@/lib/data";
+import { brand, copy, nav } from "@/lib/data";
 
 export function Footer() {
   return (
@@ -11,8 +11,7 @@ export function Footer() {
           <div className="lg:col-span-1">
             <Logo theme="light" />
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-cream/70">
-              Premium tile and stone design and installation for discerning
-              homeowners, designers, and builders across the Upstate.
+              {copy.footerBlurb}
             </p>
           </div>
 
@@ -44,7 +43,7 @@ export function Footer() {
                 <span>
                   {brand.address}
                   <br />
-                  Serving Greenville & Upstate SC
+                  {brand.serving}
                 </span>
               </li>
               <li className="flex items-center gap-2.5">
@@ -83,9 +82,7 @@ export function Footer() {
           <p>
             © {new Date().getFullYear()} {brand.name}. All rights reserved.
           </p>
-          <p className="tracking-[0.15em] uppercase">
-            Greenville · Upstate South Carolina
-          </p>
+          <p className="tracking-[0.15em] uppercase">{brand.regionBadge}</p>
         </div>
       </div>
     </footer>

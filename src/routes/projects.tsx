@@ -1,19 +1,25 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHero } from "@/components/PageHero";
 import { CtaBand } from "@/components/CtaBand";
-import { projects } from "@/lib/data";
+import {
+  brand,
+  copy,
+  images,
+  pageDescription,
+  pageTitle,
+  projects,
+} from "@/lib/data";
 
 export const Route = createFileRoute("/projects")({
   component: ProjectsPage,
   head: () => ({
     meta: [
-      {
-        title: "Projects | Level Up Tile — Portfolio of Luxury Installations",
-      },
+      { title: pageTitle("Projects") },
       {
         name: "description",
-        content:
-          "Browse Level Up Tile projects across Greenville and Upstate SC—primary baths, kitchens, outdoor terraces, and more.",
+        content: pageDescription(
+          `Browse ${brand.name} projects across ${brand.location}—baths, kitchens, outdoor living, and more.`,
+        ),
       },
     ],
   }),
@@ -25,42 +31,44 @@ function ProjectsPage() {
       <PageHero
         eyebrow="Portfolio"
         title="Projects"
-        description="A selection of recent installations for homeowners and design partners across the Upstate."
-        image="https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/kitchen-hero.jpg"
+        description={copy.projectsPage.description}
+        image={images.kitchen}
       />
 
       <section className="bg-ivory py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-5 md:px-8">
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-8 md:grid-cols-2">
             {projects.map((p) => (
               <article
                 key={p.id}
-                className="flex flex-col overflow-hidden rounded-2xl bg-cream shadow-soft"
+                className="group overflow-hidden rounded-2xl border border-border bg-cream shadow-soft"
               >
-                <div className="aspect-[4/3] overflow-hidden">
+                <div className="aspect-[16/10] overflow-hidden">
                   <img
                     src={p.image}
                     alt={p.title}
-                    className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
-                <div className="flex flex-1 flex-col p-6">
+                <div className="p-6 md:p-8">
                   <p className="text-[0.65rem] font-medium tracking-[0.18em] uppercase text-gold-dark">
                     {p.type} · {p.location}
                   </p>
-                  <h2 className="mt-2 font-display text-2xl text-forest">
+                  <h2 className="mt-1 font-display text-2xl text-forest md:text-3xl">
                     {p.title}
                   </h2>
-                  <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-muted">
+                  <p className="mt-3 text-sm leading-relaxed text-ink-muted">
                     {p.description}
                   </p>
-                  <div className="mt-4 border-t border-border pt-4">
-                    <p className="text-[0.65rem] font-medium tracking-[0.15em] uppercase text-stone">
-                      Materials
-                    </p>
-                    <p className="mt-1 text-sm text-forest-soft">
-                      {p.materials.join(" · ")}
-                    </p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {p.materials.map((m) => (
+                      <span
+                        key={m}
+                        className="rounded-full border border-forest/10 bg-ivory px-3 py-1 text-[0.65rem] tracking-[0.12em] uppercase text-stone"
+                      >
+                        {m}
+                      </span>
+                    ))}
                   </div>
                 </div>
               </article>
@@ -69,11 +77,7 @@ function ProjectsPage() {
         </div>
       </section>
 
-      <CtaBand
-        title="Start your project"
-        description="Whether you're renovating a powder room or building a new home, we'd love to collaborate."
-        image="https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/brand-marble.jpg"
-      />
+      <CtaBand />
     </>
   );
 }

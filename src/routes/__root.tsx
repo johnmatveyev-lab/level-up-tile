@@ -1,6 +1,7 @@
 import { createRootRoute, HeadContent, Outlet, Scripts } from "@tanstack/react-router";
 import { AuthProvider } from "@/lib/auth/provider";
 import { Layout } from "@/components/Layout";
+import { brand, pageTitle } from "@/lib/data";
 import appCss from "../styles.css?url";
 
 export const Route = createRootRoute({
@@ -8,22 +9,12 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      {
-        title: "Level Up Tile | Luxury Tile & Stone — Greenville & Upstate SC",
-      },
-      {
-        name: "description",
-        content:
-          "Premium tile and stone design + installation in Greenville and Upstate South Carolina. Elevate every surface with Level Up Tile.",
-      },
-      { property: "og:title", content: "Level Up Tile | Elevate Every Surface" },
-      {
-        property: "og:description",
-        content:
-          "Luxury tile & stone design and installation for Greenville & Upstate SC.",
-      },
+      { title: pageTitle() },
+      { name: "description", content: brand.description },
+      { property: "og:title", content: `${brand.name} | ${brand.tagline}` },
+      { property: "og:description", content: brand.description },
       { property: "og:type", content: "website" },
-      { name: "theme-color", content: "#0f2e24" },
+      { name: "theme-color", content: brand.themeColor },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

@@ -4,19 +4,23 @@ import { PageHero } from "@/components/PageHero";
 import { SectionHeading } from "@/components/SectionHeading";
 import { CtaBand } from "@/components/CtaBand";
 import { Button } from "@/components/ui/button";
-import { values } from "@/lib/data";
+import {
+  brand,
+  copy,
+  images,
+  pageDescription,
+  pageTitle,
+  values,
+} from "@/lib/data";
 
 export const Route = createFileRoute("/about")({
   component: AboutPage,
   head: () => ({
     meta: [
-      {
-        title: "About | Level Up Tile — Greenville Luxury Tile & Stone",
-      },
+      { title: pageTitle("About") },
       {
         name: "description",
-        content:
-          "Born in Greenville to elevate Upstate living. Meet Level Up Tile—craftsmanship, sustainability, innovation, and local pride.",
+        content: pageDescription(copy.aboutPage.heroDescription),
       },
     ],
   }),
@@ -29,9 +33,9 @@ function AboutPage() {
     <>
       <PageHero
         eyebrow="Our Story"
-        title="About Level Up Tile"
-        description="Born in Greenville to elevate Upstate living."
-        image="https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/hero-marble-bath.jpg"
+        title={copy.aboutPage.heroTitle}
+        description={copy.aboutPage.heroDescription}
+        image={images.marbleBath}
       />
 
       <section className="bg-ivory py-16 md:py-24">
@@ -39,22 +43,19 @@ function AboutPage() {
           <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
             <div className="overflow-hidden rounded-2xl shadow-card">
               <img
-                src="https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/team-photo.jpg"
-                alt="Level Up Tile team with tile samples in the showroom"
+                src={images.team}
+                alt={`${brand.name} team with tile samples`}
                 className="aspect-[4/3] w-full object-cover"
               />
             </div>
             <div>
               <SectionHeading
                 eyebrow="Our Story"
-                title="Craft with precision and soul"
-                description="We craft exceptional tile and stone installations with precision and soul for discerning homeowners, designers, and builders. Every project is an opportunity to raise the standard of how surfaces look, feel, and last."
+                title={copy.aboutPage.storyTitle}
+                description={copy.aboutPage.storyLead}
               />
               <p className="mt-5 text-sm leading-relaxed text-ink-muted md:text-base">
-                From material selection to the final polish, our team treats
-                your home with the care of a custom craft studio—clear
-                communication, protected job sites, and finishes that reward a
-                closer look.
+                {copy.aboutPage.storyBody}
               </p>
               <Button asChild className="mt-8" variant="forest">
                 <Link to="/contact">
@@ -99,22 +100,22 @@ function AboutPage() {
 
       <section className="relative overflow-hidden bg-forest-deep py-20 md:py-28">
         <img
-          src="https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/hero-marble-bath.jpg"
+          src={images.marbleBath}
           alt=""
           className="absolute inset-0 h-full w-full object-cover opacity-30"
         />
         <div className="absolute inset-0 bg-forest-deep/75" />
         <div className="relative mx-auto max-w-3xl px-5 text-center md:px-8">
           <p className="font-display text-3xl italic text-gold-light md:text-4xl">
-            Elevate every surface.
+            {brand.tagline}
           </p>
           <p className="mt-6 text-sm tracking-[0.2em] uppercase text-cream/60">
-            Greenville · Upstate South Carolina
+            {brand.regionBadge}
           </p>
         </div>
       </section>
 
-      <CtaBand image="https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images/cta-hex.jpg" />
+      <CtaBand />
     </>
   );
 }
