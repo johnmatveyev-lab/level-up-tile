@@ -14,5 +14,7 @@ attachments
 .grok
 AGENTS.md
 deploy-files.json
+deploy-files-min.json
+vercel-deploy-args.json
 min-deploy.json
 .node_modules.lock
