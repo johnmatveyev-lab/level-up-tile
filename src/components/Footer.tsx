@@ -1,7 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { Logo } from "./Logo";
-import { brand, copy, nav } from "@/lib/data";
+import { brand, copy, footerLegal, nav, serviceAreas } from "@/lib/data";
+import { track } from "@/lib/analytics";
 
 export function Footer() {
   return (
@@ -13,6 +14,7 @@ export function Footer() {
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-cream/70">
               {copy.footerBlurb}
             </p>
+            <p className="mt-4 text-xs text-cream/50">{brand.licenseNote}</p>
           </div>
 
           <div>
@@ -35,12 +37,33 @@ export function Footer() {
 
           <div>
             <h3 className="font-body text-xs font-medium tracking-[0.2em] uppercase text-gold">
+              Areas
+            </h3>
+            <ul className="mt-4 space-y-2.5">
+              {serviceAreas.map((a) => (
+                <li key={a.slug}>
+                  <Link
+                    to="/areas/$slug"
+                    params={{ slug: a.slug }}
+                    className="text-sm text-cream/75 transition-colors hover:text-gold"
+                  >
+                    {a.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="font-body text-xs font-medium tracking-[0.2em] uppercase text-gold">
               Visit
             </h3>
             <ul className="mt-4 space-y-3 text-sm text-cream/75">
               <li className="flex items-start gap-2.5">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
                 <span>
+                  {brand.streetAddress}
+                  <br />
                   {brand.address}
                   <br />
                   {brand.serving}
@@ -51,6 +74,7 @@ export function Footer() {
                 <a
                   href={`tel:${brand.phone.replace(/\D/g, "")}`}
                   className="hover:text-gold transition-colors"
+                  onClick={() => track("phone_click", { from: "footer" })}
                 >
                   {brand.phone}
                 </a>
@@ -60,28 +84,32 @@ export function Footer() {
                 <a
                   href={`mailto:${brand.email}`}
                   className="hover:text-gold transition-colors"
+                  onClick={() => track("email_click", { from: "footer" })}
                 >
                   {brand.email}
                 </a>
               </li>
             </ul>
-          </div>
-
-          <div>
-            <h3 className="font-body text-xs font-medium tracking-[0.2em] uppercase text-gold">
-              Hours
-            </h3>
             <p className="mt-4 text-sm text-cream/75">{brand.hours}</p>
-            <p className="mt-6 font-display text-2xl text-gold-light italic">
-              {brand.tagline}
-            </p>
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col items-start justify-between gap-4 border-t border-cream/10 pt-8 text-xs text-cream/50 sm:flex-row sm:items-center">
+        <div className="mt-14 flex flex-col gap-4 border-t border-cream/10 pt-8 text-xs text-cream/50 sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {new Date().getFullYear()} {brand.name}. All rights reserved.
           </p>
+          <ul className="flex flex-wrap gap-x-4 gap-y-2">
+            {footerLegal.map((item) => (
+              <li key={item.href}>
+                <Link
+                  to={item.href}
+                  className="transition-colors hover:text-gold"
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
           <p className="tracking-[0.15em] uppercase">{brand.regionBadge}</p>
         </div>
       </div>

@@ -8,6 +8,7 @@ import {
 } from "@/lib/booking";
 import { createVoiceSession, type VoiceSessionResponse } from "@/lib/voice/session";
 import { answerFromKnowledge } from "@/lib/voice/demo-engine";
+import { track } from "@/lib/analytics";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -82,8 +83,8 @@ export function VoiceAgent() {
   const processorRef = useRef<ScriptProcessorNode | null>(null);
   const playTimeRef = useRef({ current: 0 });
   const recognitionRef = useRef<SpeechRecognition | null>(null);
-  const sessionRef = useRef<VoiceSessionResponse | null>(null);
   const mutedRef = useRef(false);
+  const activeRef = useRef(false);
 
   useEffect(() => {
     mutedRef.current = muted;
@@ -94,6 +95,7 @@ export function VoiceAgent() {
   }, []);
 
   const cleanup = useCallback(() => {
+    activeRef.current = false;
     try {
       wsRef.current?.close();
     } catch {
@@ -163,6 +165,7 @@ export function VoiceAgent() {
       });
       const text = bookingConfirmationText(result.booking);
       pushLog("system", text);
+      track("book_consult_success", { source: "voice" });
       return { ok: true, confirmation: text, bookingId: result.booking.id };
     } catch (e) {
       return {
@@ -172,7 +175,9 @@ export function VoiceAgent() {
     }
   }
 
-  async function startXaiSession(session: Extract<VoiceSessionResponse, { mode: "xai" }>) {
+  async function startXaiSession(
+    session: Extract<VoiceSessionResponse, { mode: "xai" }>,
+  ) {
     const stream = await navigator.mediaDevices.getUserMedia({
       audio: {
         echoCancellation: true,
@@ -193,6 +198,7 @@ export function VoiceAgent() {
     wsRef.current = ws;
 
     ws.onopen = () => {
+      activeRef.current = true;
       ws.send(
         JSON.stringify({
           type: "session.update",
@@ -219,7 +225,7 @@ export function VoiceAgent() {
                 type: "function",
                 name: "book_consultation",
                 description:
-                  "Book a design consultation for Level Up Tile after confirming details with the caller.",
+                  "Book a design consultation after confirming details with the caller.",
                 parameters: {
                   type: "object",
                   properties: {
@@ -228,14 +234,10 @@ export function VoiceAgent() {
                     full_name: { type: "string" },
                     email: { type: "string" },
                     phone: { type: "string" },
-                    preferred_date: {
-                      type: "string",
-                      description: "YYYY-MM-DD weekday date",
-                    },
+                    preferred_date: { type: "string" },
                     time_window: {
                       type: "string",
                       enum: timeWindows.map((t) => t.id),
-                      description: "morning | afternoon | late",
                     },
                     project_type: { type: "string" },
                     message: { type: "string" },
@@ -254,7 +256,6 @@ export function VoiceAgent() {
         }),
       );
 
-      // Greet
       ws.send(
         JSON.stringify({
           type: "conversation.item.create",
@@ -311,8 +312,11 @@ export function VoiceAgent() {
         setStatus("speaking");
         const delta = msg.delta ?? msg.audio;
         if (typeof delta === "string" && audioCtxRef.current) {
-          const samples = base64ToInt16(delta);
-          playPcm16(audioCtxRef.current, samples, playTimeRef.current);
+          playPcm16(
+            audioCtxRef.current,
+            base64ToInt16(delta),
+            playTimeRef.current,
+          );
         }
       }
 
@@ -322,7 +326,10 @@ export function VoiceAgent() {
           setLogs((prev) => {
             const last = prev[prev.length - 1];
             if (last?.role === "agent") {
-              return [...prev.slice(0, -1), { role: "agent", text: last.text + d }];
+              return [
+                ...prev.slice(0, -1),
+                { role: "agent", text: last.text + d },
+              ];
             }
             return [...prev, { role: "agent", text: d }];
           });
@@ -369,9 +376,7 @@ export function VoiceAgent() {
         }
       }
 
-      if (type === "response.done") {
-        setStatus("listening");
-      }
+      if (type === "response.done") setStatus("listening");
 
       if (type === "error") {
         const errMsg =
@@ -390,11 +395,14 @@ export function VoiceAgent() {
     };
 
     ws.onclose = () => {
-      if (status !== "error") setStatus("ended");
+      if (activeRef.current) setStatus("ended");
     };
   }
 
-  async function startDemoSession(session: Extract<VoiceSessionResponse, { mode: "demo" }>) {
+  async function startDemoSession(
+    session: Extract<VoiceSessionResponse, { mode: "demo" }>,
+  ) {
+    activeRef.current = true;
     pushLog(
       "system",
       session.reason ||
@@ -422,24 +430,13 @@ export function VoiceAgent() {
     recognition.lang = "en-US";
     recognitionRef.current = recognition;
 
-    recognition.onresult = async (event: SpeechRecognitionEvent) => {
+    recognition.onresult = (event: SpeechRecognitionEvent) => {
       if (mutedRef.current) return;
       const last = event.results[event.results.length - 1];
       const text = last?.[0]?.transcript?.trim();
       if (!text) return;
       pushLog("user", text);
       setStatus("speaking");
-
-      // Simple booking intent in demo mode
-      if (
-        /book|schedule|consult|appointment/i.test(text) &&
-        /@|email|phone|tomorrow|monday|tuesday|wednesday|thursday|friday/i.test(
-          text,
-        )
-      ) {
-        // Let knowledge answer guide them; full structured booking via form
-      }
-
       const reply = answerFromKnowledge(text);
       pushLog("agent", reply);
       speakDemo(reply, () => setStatus("listening"));
@@ -449,7 +446,7 @@ export function VoiceAgent() {
       /* keep listening */
     };
     recognition.onend = () => {
-      if (status !== "ended" && open) {
+      if (activeRef.current && open) {
         try {
           recognition.start();
         } catch {
@@ -479,12 +476,11 @@ export function VoiceAgent() {
     setLogs([]);
     setStatus("connecting");
     cleanup();
+    track("voice_agent_start");
 
     try {
       const session = await createVoiceSession();
-      sessionRef.current = session;
       setMode(session.mode);
-
       if (session.mode === "xai") {
         await startXaiSession(session);
       } else {
@@ -510,17 +506,17 @@ export function VoiceAgent() {
       setStatus("idle");
     } else {
       setOpen(true);
+      track("voice_agent_open");
     }
   }
 
   return (
     <>
-      {/* Floating talk button */}
       <button
         type="button"
         onClick={toggleOpen}
         className={cn(
-          "fixed bottom-5 right-5 z-[60] flex items-center gap-2 rounded-full bg-forest px-5 py-3.5 text-sm font-medium tracking-wide text-cream shadow-card transition-all hover:bg-forest-mid focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold md:bottom-8 md:right-8",
+          "fixed bottom-5 right-5 z-[60] flex min-h-11 items-center gap-2 rounded-full bg-forest px-5 py-3.5 text-sm font-medium tracking-wide text-cream shadow-card transition-all hover:bg-forest-mid focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold md:bottom-8 md:right-8",
           open && "ring-2 ring-gold",
         )}
         aria-expanded={open}
@@ -565,9 +561,9 @@ export function VoiceAgent() {
           <div className="max-h-56 space-y-2 overflow-y-auto px-4 py-3 text-sm">
             {logs.length === 0 && status === "idle" && (
               <p className="text-ink-muted">
-                Start a conversation to ask about collections, installations, or
-                book a design consultation. Powered by Grok Voice when{" "}
-                <code className="text-xs">XAI_API_KEY</code> is configured.
+                Start a conversation about collections, installs, or booking.
+                Full Grok Voice when{" "}
+                <code className="text-xs">XAI_API_KEY</code> is set.
               </p>
             )}
             {logs.map((line, i) => (
@@ -620,12 +616,7 @@ export function VoiceAgent() {
                       <Mic className="h-4 w-4" />
                     )}
                   </Button>
-                  <Button
-                    type="button"
-                    size="sm"
-                    variant="forest"
-                    onClick={stop}
-                  >
+                  <Button type="button" size="sm" variant="forest" onClick={stop}>
                     <PhoneOff className="h-4 w-4" />
                     End
                   </Button>
@@ -654,7 +645,6 @@ export function VoiceAgent() {
   );
 }
 
-/* SpeechRecognition typings for browsers that expose webkit prefix */
 interface SpeechRecognition extends EventTarget {
   continuous: boolean;
   interimResults: boolean;

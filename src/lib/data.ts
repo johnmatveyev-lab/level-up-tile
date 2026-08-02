@@ -1,50 +1,47 @@
 /**
  * TILE CONTRACTOR WEBSITE TEMPLATE — single source of truth
  * ─────────────────────────────────────────────────────────
- * Rebrand for any tile / stone contractor by editing this file only:
- *   1. brand      → company name, tagline, contact, location
- *   2. copy       → homepage & about marketing text
- *   3. images     → filenames under /public/images (or CDN URLs)
- *   4. collections / projects / services → portfolio content
- *
+ * Rebrand for any tile / stone contractor by editing this file only.
  * Demo brand: Level Up Tile (Greenville & Upstate SC)
  */
 
 const CDN =
   "https://cdn.jsdelivr.net/gh/johnmatveyev-lab/level-up-tile@main/public/images";
 
-/** Resolve image: local path in browser; CDN absolute for SSR / empty deploys */
 export function asset(filename: string) {
   if (filename.startsWith("http")) return filename;
   return `${CDN}/${filename}`;
 }
 
-// ─── Brand (edit first) ──────────────────────────────────────────────────────
+// ─── Brand ───────────────────────────────────────────────────────────────────
 
 export const brand = {
-  /** Full company name */
   name: "Level Up Tile",
-  /** Short initials for monogram logo (1–3 letters) */
   initials: "LU",
-  /** Primary headline / brand promise */
   tagline: "Elevate Every Surface",
-  /** Subline under logo */
   sub: "Luxury Tile & Stone",
-  /** Market area shown in hero & footer */
   location: "Greenville & Upstate SC",
-  /** Footer / contact address line */
-  address: "Greenville, South Carolina",
-  /** Region line under address */
-  serving: "Serving Greenville & Upstate SC",
-  /** Footer location badge */
+  /** Street-style line for maps / local SEO */
+  streetAddress: "By appointment · Design studio visits available",
+  address: "Greenville, South Carolina 29601",
+  city: "Greenville",
+  region: "SC",
+  postalCode: "29601",
+  country: "US",
+  serving: "Serving Greenville, Travelers Rest, Simpsonville, Greer & Upstate SC",
   regionBadge: "Greenville · Upstate South Carolina",
   phone: "(864) 555-0142",
   email: "hello@leveluptile.com",
   hours: "Mon–Fri 9am–5pm · Sat by appointment",
-  /** SEO / social */
+  hoursSchema: "Mo-Fr 09:00-17:00",
+  licenseNote: "Licensed & insured tile and stone installation",
   description:
-    "Premium tile and stone design + installation for homeowners, designers, and builders. Elevate every surface.",
+    "Premium tile and stone design + installation for homeowners, designers, and builders in Greenville and Upstate SC. Elevate every surface.",
   themeColor: "#0f2e24",
+  social: {
+    instagram: "https://instagram.com/",
+    facebook: "https://facebook.com/",
+  },
 };
 
 export function pageTitle(page?: string) {
@@ -66,11 +63,19 @@ export const nav: NavItem[] = [
   { label: "Collections", href: "/collections" },
   { label: "Projects", href: "/projects" },
   { label: "Services", href: "/services" },
+  { label: "Areas", href: "/areas" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
 
-// ─── Images (filenames in public/images) ─────────────────────────────────────
+export const footerLegal: NavItem[] = [
+  { label: "FAQ", href: "/faq" },
+  { label: "Warranty", href: "/warranty" },
+  { label: "Privacy", href: "/privacy" },
+  { label: "Terms", href: "/terms" },
+];
+
+// ─── Images ──────────────────────────────────────────────────────────────────
 
 export const images = {
   hero: asset("hero-main.jpg"),
@@ -86,6 +91,7 @@ export const images = {
   patio: asset("project-patio.jpg"),
   powder: asset("project-powder.jpg"),
   marbleKitchen: asset("project-marble-kitchen.jpg"),
+  heroBath: asset("hero-bath.jpg"),
 };
 
 // ─── Marketing copy ──────────────────────────────────────────────────────────
@@ -104,7 +110,7 @@ export const copy = {
     },
     {
       label: "Local Focused",
-      text: `Rooted in ${brand.location.split("&")[0]?.trim() ?? brand.location}, serving the greater region.`,
+      text: "Rooted in Greenville, serving the greater Upstate.",
     },
     {
       label: "Premium Materials",
@@ -175,7 +181,7 @@ export const copy = {
     button: "Book Consultation",
   },
   footerBlurb:
-    "Premium tile and stone design and installation for discerning homeowners, designers, and builders.",
+    "Premium tile and stone design and installation for discerning homeowners, designers, and builders across the Upstate.",
   collectionsPage: {
     description:
       "Curated materials for baths, kitchens, living spaces, and outdoor rooms—selected for beauty, durability, and design flexibility.",
@@ -189,7 +195,124 @@ export const copy = {
   },
 };
 
-// ─── Catalog content ─────────────────────────────────────────────────────────
+// ─── Service areas (local SEO) ───────────────────────────────────────────────
+
+export type ServiceArea = {
+  slug: string;
+  name: string;
+  headline: string;
+  description: string;
+  neighborhoods: string[];
+};
+
+export const serviceAreas: ServiceArea[] = [
+  {
+    slug: "greenville",
+    name: "Greenville",
+    headline: "Luxury tile & stone installation in Greenville, SC",
+    description:
+      "Primary baths, kitchens, and feature walls for Greenville homeowners—from downtown lofts to North Main estates. Design consults and precision install under one roof.",
+    neighborhoods: [
+      "Downtown",
+      "North Main",
+      "Augusta Road",
+      "Overbrook",
+      "Wade Hampton",
+    ],
+  },
+  {
+    slug: "travelers-rest",
+    name: "Travelers Rest",
+    headline: "Mountain-view kitchens & spa baths in Travelers Rest",
+    description:
+      "We bring large-format porcelain, natural stone, and outdoor surfaces to TR homes that open to the Blue Ridge—built for beauty and daily living.",
+    neighborhoods: ["Downtown TR", "Tigerville Road", "Mountain View"],
+  },
+  {
+    slug: "simpsonville",
+    name: "Simpsonville",
+    headline: "Tile design & install for Simpsonville homes",
+    description:
+      "Family baths, mudrooms, and outdoor living packages with durable porcelain and refined finishes—scheduled around your life.",
+    neighborhoods: ["Heritage Park", "Five Forks edge", "Harrison Bridge"],
+  },
+  {
+    slug: "greer",
+    name: "Greer",
+    headline: "Premium surfaces for Greer & the eastern Upstate",
+    description:
+      "New construction partnerships and remodels with clean installs, waterproofed wet areas, and materials chosen for longevity.",
+    neighborhoods: ["Riverside", "Suber Road", "Apalache"],
+  },
+];
+
+// ─── FAQ ─────────────────────────────────────────────────────────────────────
+
+export const faqs = [
+  {
+    q: "How much does a tile installation cost?",
+    a: "It depends on material, square footage, substrate condition, waterproofing, and pattern complexity. We provide written estimates after a design consultation—never a one-size phone quote for luxury work.",
+  },
+  {
+    q: "Do you only install, or help choose materials?",
+    a: "Both. We offer design consultation and material curation as well as precision installation, so you can start with samples or a full project partnership.",
+  },
+  {
+    q: "How long does a typical primary bath take?",
+    a: "After materials arrive and the site is ready, most primary baths run one to three weeks of install time depending on waterproofing, niche work, and stone fabrication. We confirm a schedule at kickoff.",
+  },
+  {
+    q: "Are you licensed and insured?",
+    a: `Yes. ${brand.licenseNote}. Certificates available on request for builders and HOAs.`,
+  },
+  {
+    q: "Do you work with interior designers and builders?",
+    a: "Absolutely. We coordinate shop drawings, lead times, and site protection with your design and build teams across Greenville and the Upstate.",
+  },
+  {
+    q: "What areas do you serve?",
+    a: brand.serving,
+  },
+  {
+    q: "Can I book by voice?",
+    a: "Yes—use Talk to Aria on the site (Grok Voice when configured). You can also book on the Contact page with date and time windows.",
+  },
+];
+
+// ─── Quote estimator bands (indicative) ──────────────────────────────────────
+
+export const quoteBands = [
+  {
+    id: "powder",
+    label: "Powder room accent",
+    sqftHint: "20–40 sq ft",
+    range: "$1,800–$4,500+",
+    note: "Feature wall or floor with mid-range porcelain/ceramic.",
+  },
+  {
+    id: "bath",
+    label: "Primary bath wet room",
+    sqftHint: "80–160 sq ft",
+    range: "$8,000–$22,000+",
+    note: "Waterproofing, large-format or mosaic, niches, stone thresholds.",
+  },
+  {
+    id: "kitchen",
+    label: "Kitchen floor + backsplash",
+    sqftHint: "120–250 sq ft",
+    range: "$6,500–$18,000+",
+    note: "Porcelain floors and coordinated backsplash; excludes counters.",
+  },
+  {
+    id: "outdoor",
+    label: "Outdoor terrace pavers",
+    sqftHint: "200–500 sq ft",
+    range: "$9,000–$28,000+",
+    note: "20mm outdoor porcelain, base prep varies by site.",
+  },
+];
+
+// ─── Catalog ─────────────────────────────────────────────────────────────────
 
 export type Collection = {
   id: string;
@@ -264,6 +387,7 @@ export type Project = {
   type: string;
   description: string;
   image: string;
+  beforeImage?: string;
   materials: string[];
 };
 
@@ -276,6 +400,7 @@ export const projects: Project[] = [
     description:
       "Deep emerald fish-scale tile wraps the wet room, paired with a carved stone tub and matte black fixtures.",
     image: images.emerald,
+    beforeImage: images.heroBath,
     materials: ["Fish-scale porcelain", "Basalt tub", "Matte black hardware"],
   },
   {
@@ -286,6 +411,7 @@ export const projects: Project[] = [
     description:
       "Forest-green cabinetry meets warm stone island and backsplash, opening to Blue Ridge views.",
     image: images.kitchen,
+    beforeImage: images.collections,
     materials: ["Large-format porcelain", "Quartz island", "Brass fixtures"],
   },
   {
@@ -296,6 +422,7 @@ export const projects: Project[] = [
     description:
       "Book-matched marble walls, freestanding tub, and gold fixtures create a hotel-caliber sanctuary.",
     image: images.brandMarble,
+    beforeImage: images.marbleBath,
     materials: ["Calacatta marble", "Brass fixtures", "Polished porcelain"],
   },
   {
@@ -404,3 +531,27 @@ export const processSteps = [
     description: "Final polish, walkthrough, and care guidance for lasting beauty.",
   },
 ];
+
+export const warranty = {
+  title: "Workmanship commitment",
+  summary:
+    "We stand behind our installation craftsmanship. Material warranties follow manufacturer terms; our labor is backed by a written workmanship guarantee delivered at project closeout.",
+  points: [
+    {
+      title: "Workmanship",
+      body: "Installation labor guaranteed against defects in workmanship for two (2) years from substantial completion, subject to normal use and proper maintenance.",
+    },
+    {
+      title: "Materials",
+      body: "Porcelain, stone, membranes, and setting materials carry their manufacturer warranties. We register systems where required and share care guides at handover.",
+    },
+    {
+      title: "What's not covered",
+      body: "Structural movement, water intrusion from unrelated trades, homeowner modifications, abuse, or lack of sealing/maintenance on natural stone.",
+    },
+    {
+      title: "How to claim",
+      body: `Email ${brand.email} with your project address and photos. We respond within two business days to schedule an inspection.`,
+    },
+  ],
+};

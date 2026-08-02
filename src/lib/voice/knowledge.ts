@@ -77,6 +77,10 @@ ${projectBlock}
 ## Values
 ${valuesBlock}
 
+## Service areas
+- Greenville, Travelers Rest, Simpsonville, Greer, and greater Upstate SC
+- Dedicated area pages on the website under /areas
+
 ## Booking rules
 - Consultations: showroom or on-site in ${brand.location}
 - Business hours: ${brand.hours}

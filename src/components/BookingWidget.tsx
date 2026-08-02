@@ -7,6 +7,7 @@ import {
   type Booking,
 } from "@/lib/booking";
 import { brand } from "@/lib/data";
+import { track } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 type Options = Awaited<ReturnType<typeof getBookingOptions>>;
@@ -43,6 +44,7 @@ export function BookingWidget({ className }: { className?: string }) {
     e.preventDefault();
     setError(null);
     setSending(true);
+    track("book_consult_submit", { source: "web" });
     const fd = new FormData(e.currentTarget);
     try {
       const result = await submitBooking({
@@ -59,6 +61,10 @@ export function BookingWidget({ className }: { className?: string }) {
         },
       });
       setBooking(result.booking);
+      track("book_consult_success", {
+        source: "web",
+        projectType: result.booking.projectType,
+      });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Booking failed");
     } finally {
@@ -153,13 +159,23 @@ export function BookingWidget({ className }: { className?: string }) {
             <span className="text-xs font-medium tracking-[0.12em] uppercase text-stone">
               First name <span className="text-gold-dark">*</span>
             </span>
-            <input name="firstName" required className={field} autoComplete="given-name" />
+            <input
+              name="firstName"
+              required
+              className={field}
+              autoComplete="given-name"
+            />
           </label>
           <label className="block">
             <span className="text-xs font-medium tracking-[0.12em] uppercase text-stone">
               Last name <span className="text-gold-dark">*</span>
             </span>
-            <input name="lastName" required className={field} autoComplete="family-name" />
+            <input
+              name="lastName"
+              required
+              className={field}
+              autoComplete="family-name"
+            />
           </label>
         </div>
         <div className="grid gap-5 sm:grid-cols-2">
@@ -230,7 +246,12 @@ export function BookingWidget({ className }: { className?: string }) {
               <Clock className="h-3.5 w-3.5" />
               Time window <span className="text-gold-dark">*</span>
             </span>
-            <select name="timeWindow" required className={field} defaultValue="morning">
+            <select
+              name="timeWindow"
+              required
+              className={field}
+              defaultValue="morning"
+            >
               {options?.timeWindows.map((t) => (
                 <option key={t.id} value={t.id}>
                   {t.label}

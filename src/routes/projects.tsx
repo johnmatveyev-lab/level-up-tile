@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHero } from "@/components/PageHero";
 import { CtaBand } from "@/components/CtaBand";
+import { LazyImage } from "@/components/LazyImage";
 import {
   brand,
   copy,
@@ -41,13 +42,38 @@ function ProjectsPage() {
                 key={p.id}
                 className="group overflow-hidden rounded-2xl border border-border bg-cream shadow-soft"
               >
-                <div className="aspect-[16/10] overflow-hidden">
-                  <img
-                    src={p.image}
-                    alt={p.title}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                </div>
+                {p.beforeImage ? (
+                  <div className="grid grid-cols-2 gap-px bg-border">
+                    <div className="relative aspect-[4/3] overflow-hidden bg-forest-deep">
+                      <LazyImage
+                        src={p.beforeImage}
+                        alt={`${p.title} before`}
+                        className="h-full w-full object-cover opacity-90"
+                      />
+                      <span className="absolute bottom-2 left-2 rounded bg-forest-deep/80 px-2 py-0.5 text-[0.6rem] tracking-[0.14em] uppercase text-cream">
+                        Before
+                      </span>
+                    </div>
+                    <div className="relative aspect-[4/3] overflow-hidden">
+                      <LazyImage
+                        src={p.image}
+                        alt={`${p.title} after`}
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <span className="absolute bottom-2 left-2 rounded bg-gold/90 px-2 py-0.5 text-[0.6rem] tracking-[0.14em] uppercase text-forest-deep">
+                        After
+                      </span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="aspect-[16/10] overflow-hidden">
+                    <LazyImage
+                      src={p.image}
+                      alt={p.title}
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                )}
                 <div className="p-6 md:p-8">
                   <p className="text-[0.65rem] font-medium tracking-[0.18em] uppercase text-gold-dark">
                     {p.type} · {p.location}
