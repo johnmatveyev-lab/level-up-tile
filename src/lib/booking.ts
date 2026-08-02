@@ -30,6 +30,13 @@ export const timeWindows = [
   },
 ] as const;
 
+export type BookingStatus =
+  | "confirmed"
+  | "pending"
+  | "contacted"
+  | "completed"
+  | "cancelled";
+
 export type Booking = {
   id: string;
   createdAt: string;
@@ -42,7 +49,7 @@ export type Booking = {
   timeWindow: string;
   message: string;
   source: "web" | "voice";
-  status: "confirmed" | "pending";
+  status: BookingStatus;
 };
 
 const bookingSchema = z.object({
@@ -74,6 +81,18 @@ type BookingRow = {
   status: string;
 };
 
+const STATUS_SET = new Set<BookingStatus>([
+  "confirmed",
+  "pending",
+  "contacted",
+  "completed",
+  "cancelled",
+]);
+
+function normalizeStatus(s: string): BookingStatus {
+  return STATUS_SET.has(s as BookingStatus) ? (s as BookingStatus) : "confirmed";
+}
+
 function rowToBooking(r: BookingRow): Booking {
   const created =
     typeof r.created_at === "string"
@@ -91,7 +110,7 @@ function rowToBooking(r: BookingRow): Booking {
     timeWindow: r.time_window,
     message: r.message,
     source: r.source === "voice" ? "voice" : "web",
-    status: r.status === "pending" ? "pending" : "confirmed",
+    status: normalizeStatus(r.status),
   };
 }
 
@@ -128,6 +147,18 @@ async function ensureBookingsTable() {
       status text not null default 'confirmed'
     )
   `);
+}
+
+function assertAdminToken(token: string | undefined) {
+  const expected = process.env.ADMIN_TOKEN?.trim();
+  if (!expected) {
+    // Dev / preview fallback — change via ADMIN_TOKEN in production
+    if (token === "levelup-admin") return;
+    throw new Error("Invalid admin token");
+  }
+  if (!token || token !== expected) {
+    throw new Error("Invalid admin token");
+  }
 }
 
 export const getBookingOptions = createServerFn({ method: "GET" }).handler(
@@ -191,19 +222,63 @@ export const submitBooking = createServerFn({ method: "POST" })
     return { ok: true, booking };
   });
 
-export const listBookings = createServerFn({ method: "GET" }).handler(
-  async () => {
+export const listBookings = createServerFn({ method: "POST" })
+  .validator((data: unknown) =>
+    z.object({ token: z.string().min(1).max(200) }).parse(data),
+  )
+  .handler(async ({ data }) => {
+    assertAdminToken(data.token);
     await ensureBookingsTable();
     const sql = await getSql();
     const rows = await sql<BookingRow>`
-      select * from bookings order by created_at desc limit 50
+      select * from bookings order by created_at desc limit 100
     `;
     return { bookings: rows.map(rowToBooking) };
-  },
-);
+  });
+
+export const updateBookingStatus = createServerFn({ method: "POST" })
+  .validator((data: unknown) =>
+    z
+      .object({
+        token: z.string().min(1).max(200),
+        id: z.string().min(1).max(80),
+        status: z.enum([
+          "confirmed",
+          "pending",
+          "contacted",
+          "completed",
+          "cancelled",
+        ]),
+      })
+      .parse(data),
+  )
+  .handler(async ({ data }) => {
+    assertAdminToken(data.token);
+    await ensureBookingsTable();
+    const sql = await getSql();
+    await sql`
+      update bookings set status = ${data.status} where id = ${data.id}
+    `;
+    return { ok: true as const, id: data.id, status: data.status };
+  });
 
 export function bookingConfirmationText(b: Booking): string {
   const windowLabel =
     timeWindows.find((t) => t.id === b.timeWindow)?.label ?? b.timeWindow;
   return `Consultation booked for ${b.firstName} ${b.lastName} on ${b.preferredDate} (${windowLabel}) regarding ${b.projectType}. Confirmation id ${b.id}. Our team will follow up at ${b.email} or ${b.phone}.`;
+}
+
+/** Google Calendar "Add event" URL for the booked window. */
+export function googleCalendarUrl(b: Booking): string {
+  const tw = timeWindows.find((t) => t.id === b.timeWindow) ?? timeWindows[0];
+  const start = `${b.preferredDate.replace(/-/g, "")}T${tw.start.replace(":", "")}00`;
+  const end = `${b.preferredDate.replace(/-/g, "")}T${tw.end.replace(":", "")}00`;
+  const params = new URLSearchParams({
+    action: "TEMPLATE",
+    text: `${brand.name} consultation — ${b.projectType}`,
+    dates: `${start}/${end}`,
+    details: `Confirmation ${b.id}\n${b.firstName} ${b.lastName}\n${b.phone}\n${b.email}\n\n${b.message || ""}`,
+    location: brand.location,
+  });
+  return `https://calendar.google.com/calendar/render?${params.toString()}`;
 }

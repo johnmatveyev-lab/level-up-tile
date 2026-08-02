@@ -7,6 +7,7 @@ import {
   MapPin,
   Mic,
   Sparkles,
+  Star,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SectionHeading } from "@/components/SectionHeading";
@@ -18,6 +19,7 @@ import {
   images,
   processSteps,
   projects,
+  testimonials,
   values,
 } from "@/lib/data";
 import { buildMeta, siteUrl } from "@/lib/seo";
@@ -63,6 +65,20 @@ function HomePage() {
                 <br />
                 <span className="text-cream/70">{brand.location}</span>
               </p>
+            </div>
+            <div className="mt-4 flex items-center gap-2 text-sm text-cream/80">
+              <span className="inline-flex items-center gap-0.5 text-gold">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star
+                    key={i}
+                    className="h-3.5 w-3.5 fill-gold text-gold"
+                    strokeWidth={0}
+                  />
+                ))}
+              </span>
+              <span>
+                {brand.rating.value} · {brand.rating.count} client reviews
+              </span>
             </div>
             <div className="mt-10 flex flex-wrap gap-3">
               <Button asChild size="xl" variant="gold">
@@ -256,6 +272,45 @@ function HomePage() {
                   </h3>
                 </div>
               </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-cream py-20 md:py-28">
+        <div className="mx-auto max-w-7xl px-5 md:px-8">
+          <SectionHeading
+            eyebrow={copy.testimonialsIntro.eyebrow}
+            title={copy.testimonialsIntro.title}
+            description={copy.testimonialsIntro.description}
+            align="center"
+            className="mb-14"
+          />
+          <div className="grid gap-6 md:grid-cols-3">
+            {testimonials.map((t) => (
+              <blockquote
+                key={t.name}
+                className="flex h-full flex-col rounded-2xl border border-border bg-ivory p-6 shadow-soft md:p-8"
+              >
+                <div className="mb-4 flex gap-0.5 text-gold">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star
+                      key={i}
+                      className="h-3.5 w-3.5 fill-gold text-gold"
+                      strokeWidth={0}
+                    />
+                  ))}
+                </div>
+                <p className="flex-1 font-display text-xl leading-snug text-forest md:text-2xl">
+                  “{t.quote}”
+                </p>
+                <footer className="mt-6 border-t border-border pt-4">
+                  <p className="text-sm font-medium text-forest">{t.name}</p>
+                  <p className="text-xs tracking-wide text-stone uppercase">
+                    {t.role} · {t.location}
+                  </p>
+                </footer>
+              </blockquote>
             ))}
           </div>
         </div>

@@ -90,6 +90,12 @@ export function localBusinessJsonLd() {
     ],
     priceRange: "$$$",
     openingHours: brand.hoursSchema,
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: brand.rating.value,
+      reviewCount: brand.rating.count,
+      bestRating: brand.rating.best,
+    },
     makesOffer: [
       {
         "@type": "Offer",

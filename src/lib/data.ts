@@ -3,6 +3,9 @@
  * ─────────────────────────────────────────────────────────
  * Rebrand for any tile / stone contractor by editing this file only.
  * Demo brand: Level Up Tile (Greenville & Upstate SC)
+ *
+ * Replace phone, email, address, social, and photos with real business data
+ * before go-live. Placeholder phone uses 555 exchange intentionally.
  */
 
 const CDN =
@@ -30,6 +33,7 @@ export const brand = {
   country: "US",
   serving: "Serving Greenville, Travelers Rest, Simpsonville, Greer & Upstate SC",
   regionBadge: "Greenville · Upstate South Carolina",
+  /** Demo placeholder — replace with real line before marketing spend */
   phone: "(864) 555-0142",
   email: "hello@leveluptile.com",
   hours: "Mon–Fri 9am–5pm · Sat by appointment",
@@ -41,6 +45,12 @@ export const brand = {
   social: {
     instagram: "https://instagram.com/",
     facebook: "https://facebook.com/",
+  },
+  /** Aggregate review stats for schema + trust badges (template demo numbers) */
+  rating: {
+    value: 4.9,
+    count: 47,
+    best: 5,
   },
 };
 
@@ -147,6 +157,12 @@ export const copy = {
   valuesIntro: {
     eyebrow: "Our Values",
     title: "What guides every project",
+  },
+  testimonialsIntro: {
+    eyebrow: "Client Stories",
+    title: "Trusted across the Upstate",
+    description:
+      "Homeowners and design partners on craftsmanship, communication, and finishes that last.",
   },
   aboutTeaser: {
     eyebrow: "Our Story",
@@ -276,6 +292,39 @@ export const faqs = [
   {
     q: "Can I book by voice?",
     a: "Yes—use Talk to Aria on the site (Grok Voice when configured). You can also book on the Contact page with date and time windows.",
+  },
+];
+
+// ─── Testimonials (growth / trust) ───────────────────────────────────────────
+
+export type Testimonial = {
+  quote: string;
+  name: string;
+  role: string;
+  location: string;
+};
+
+export const testimonials: Testimonial[] = [
+  {
+    quote:
+      "Every joint is perfect. They protected the house like it was their own and the emerald shower still stops guests in their tracks.",
+    name: "Rachel M.",
+    role: "Homeowner",
+    location: "North Main, Greenville",
+  },
+  {
+    quote:
+      "As a designer I need trades who read drawings and finish clean. Level Up is on my short list for any wet room or statement floor.",
+    name: "James K.",
+    role: "Interior designer",
+    location: "Greenville",
+  },
+  {
+    quote:
+      "Kitchen and terrace pavers installed on schedule with zero lippage drama. Clear updates the whole way through.",
+    name: "Priya & Dan S.",
+    role: "Homeowners",
+    location: "Travelers Rest",
   },
 ];
 

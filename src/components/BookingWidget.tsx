@@ -1,8 +1,9 @@
 import { useEffect, useState, type FormEvent } from "react";
-import { CheckCircle2, CalendarDays, Clock } from "lucide-react";
+import { CheckCircle2, CalendarDays, Clock, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   getBookingOptions,
+  googleCalendarUrl,
   submitBooking,
   type Booking,
 } from "@/lib/booking";
@@ -89,6 +90,7 @@ export function BookingWidget({ className }: { className?: string }) {
     const windowLabel =
       options?.timeWindows.find((t) => t.id === booking.timeWindow)?.label ??
       booking.timeWindow;
+    const calUrl = googleCalendarUrl(booking);
     return (
       <div
         className={cn(
@@ -116,13 +118,20 @@ export function BookingWidget({ className }: { className?: string }) {
           We'll follow up at {booking.email} or {booking.phone}. Prefer a
           call? {brand.phone}
         </p>
-        <Button
-          className="mt-8"
-          variant="outline"
-          onClick={() => setBooking(null)}
-        >
-          Book another time
-        </Button>
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <Button asChild variant="forest">
+            <a href={calUrl} target="_blank" rel="noreferrer">
+              Add to Google Calendar
+              <ExternalLink className="h-4 w-4" />
+            </a>
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => setBooking(null)}
+          >
+            Book another time
+          </Button>
+        </div>
       </div>
     );
   }
