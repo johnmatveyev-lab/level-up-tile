@@ -89,10 +89,6 @@ function AdminCrmPage() {
           <h1 className="mt-2 font-display text-4xl text-forest">Lead CRM</h1>
           <p className="mt-3 text-sm text-ink-muted">
             Enter your admin token to view consultations for {brand.name}.
-            Default local token:{" "}
-            <code className="rounded bg-cream px-1.5 py-0.5 text-xs">
-              levelup-admin
-            </code>
           </p>
           <form onSubmit={onLogin} className="mt-8 space-y-4">
             <input
