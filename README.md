@@ -66,3 +66,6 @@ npm run build
 - Production DB: set `DATABASE_URL` (Neon) so consultations persist across deploys.
 - Voice: set `XAI_API_KEY` for live Aria; otherwise demo Q&A mode.
 - Email: verify a Resend domain; until then `onboarding@resend.dev` only emails the account owner.
+
+## Voice agents
+See [docs/VOICE_AGENTS.md](docs/VOICE_AGENTS.md).

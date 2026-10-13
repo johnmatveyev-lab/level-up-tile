@@ -152,9 +152,8 @@ async function ensureBookingsTable() {
 function assertAdminToken(token: string | undefined) {
   const expected = process.env.ADMIN_TOKEN?.trim();
   if (!expected) {
-    // Dev / preview fallback — change via ADMIN_TOKEN in production
-    if (token === "levelup-admin") return;
-    throw new Error("Invalid admin token");
+    // Fail closed: no ADMIN_TOKEN configured means nobody can read the CRM.
+    throw new Error("Admin access is not configured");
   }
   if (!token || token !== expected) {
     throw new Error("Invalid admin token");
