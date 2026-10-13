@@ -25,6 +25,7 @@ export const Route = createRootRoute({
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Outfit:wght@300;400;500;600&display=swap",
       },
+      { rel: "icon", href: "/favicon.ico", sizes: "any" },
       { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
       { rel: "canonical", href: siteUrl + "/" },
       { rel: "sitemap", href: "/sitemap.xml", type: "application/xml" },
